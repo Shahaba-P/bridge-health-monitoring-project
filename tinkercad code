@@ -1,0 +1,157 @@
+#include<LiquidCrystal.h>
+
+LiquidCrystal lcd(2,3,4,5,6,7);
+#define lm35 A0
+#define vibra A1
+#define levelsens A2
+
+boolean sendsms1=false;
+boolean sendsms2=false;
+boolean sendsms3=false;
+
+int temp,value,vibrationvalue,levelvalue;
+
+byte degree[8]={0b00011,0b00011,0b00000,0b00000,0b00000,0b00000,
+                0b00000,0b00000};
+void setup()
+{
+  Serial.begin(9600);
+  delay(100);
+  pinMode(lm35,INPUT);
+   pinMode(vibra,INPUT);
+   pinMode(levelsens,INPUT);
+   pinMode(8,OUTPUT);
+   pinMode(9,OUTPUT);
+   pinMode(10,OUTPUT);
+   pinMode(11,OUTPUT);
+  lcd.begin(16,2);
+  delay(500);
+  lcd.createChar(1,degree);
+  lcd.setCursor(0,0);
+  lcd.print("Bridge Health");
+  lcd.setCursor(0,1);
+  lcd.print("Monitoring");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Pragti 2.0");
+  lcd.setCursor(0,1);
+  lcd.print("By Team 1");
+  delay(1000);
+  lcd.clear();
+  delay(1000); 
+   }
+   void loop()
+  {
+    value=analogRead(lm35);
+    temp=(value/3)+4;
+    vibrationvalue=analogRead(vibra);
+    levelvalue=analogRead(levelsens);
+    delay(500);
+    Serial.print("vibration:");
+    Serial.print(vibrationvalue,1);
+    Serial.print("hz\ ");
+    Serial.print("water level:");
+    Serial.print(levelvalue,1);
+    Serial.print("mm\ ");
+    Serial.print("temperature value:");
+    Serial.print(temp,1);
+    Serial.print("*C\ ");
+                 
+    delay(500);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("temperature");
+    lcd.setCursor(0,1);
+    lcd.print(temp);
+    lcd.print("*C");
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("vibrationvalue");
+    lcd.setCursor(0,1);
+    lcd.print("vibration");
+    lcd.write(1);
+    lcd.print("Hz");
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(0,1);
+    lcd.print("Level");
+    lcd.setCursor(0,1);
+    lcd.print("levelvalue");
+    lcd.print("mm");
+    delay(1000);
+    lcd.clear();
+              
+     if
+     (temp>25)          
+    {   sendsms1=true;
+    }
+      else
+    {
+     sendsms1=false;
+    }
+     if
+     (vibrationvalue>800)          
+    {   sendsms2=true;
+    }       
+      else
+    {
+        sendsms2=false;
+    }
+      if
+     (levelvalue>600)          
+    {   sendsms3=true;
+    }
+      else
+    {
+     sendsms3=false;
+    }
+     if(sendsms1)
+     {
+       digitalWrite(8,HIGH);
+        digitalWrite(11,HIGH);
+       delay(1000);
+     }
+      else
+     {
+       digitalWrite(8,LOW);
+        digitalWrite(11,LOW);
+     }
+      if(sendsms2)
+     {
+       digitalWrite(9,HIGH);
+        digitalWrite(11,HIGH);
+       delay(1000);
+     }
+     else
+     {
+       digitalWrite(9,LOW);
+        digitalWrite(11,LOW);
+     }
+              
+     if(sendsms3)
+     {
+       digitalWrite(10,HIGH);
+        digitalWrite(11,HIGH);
+       delay(1000);
+     }
+     else
+     {
+        digitalWrite(10,LOW);
+        digitalWrite(11,LOW);
+     }
+       digitalWrite(10,LOW);
+       digitalWrite(11,LOW);
+     }
+         
+              
+
+              
+    
+                 
+    
+    
+        
+                           
+                            
